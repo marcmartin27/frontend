@@ -1,0 +1,27 @@
+// main.scss - El archivo que importa todos los demás
+
+@import 'variables';
+@import 'globals';
+@import 'components';
+@import 'auth';
+@import 'dashboard';
+@import 'teams';
+@import 'coaches';
+@import 'users';
+@import 'players';
+@import 'playerModal';
+@import 'attendance';
+@import 'tasks';
+@import 'minutes';
+@import 'session';
+@import 'userManagement';
+@import 'adminTasks';
+@import 'adminSessions';
+@import 'coachInicio';
+@import 'modals';
+@import 'adminMinutes';
+@import 'adminAttendance';
+@import 'adminSessions';
+@import 'adminDashboardHome'; 
+@import 'sessionModal';
+@import 'taskModal';

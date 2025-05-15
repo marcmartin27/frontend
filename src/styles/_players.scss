@@ -1,0 +1,954 @@
+/* Estilos mejorados para la gestión de jugadores */
+
+// Variables específicas para jugadores
+$position-colors: (
+  'POR': linear-gradient(135deg, #f1c40f, #e67e22),
+  'DEF': linear-gradient(135deg, #3498db, #2574a9),
+  'LTD': linear-gradient(135deg, #2980b9, #1a5276),
+  'LTI': linear-gradient(135deg, #2980b9, #1a5276),
+  'MCD': linear-gradient(135deg, #27ae60, #1e8449),
+  'MC': linear-gradient(135deg, #2ecc71, #27ae60),
+  'MCO': linear-gradient(135deg, #16a085, #0e6251),
+  'ED': linear-gradient(135deg, #e74c3c, #c0392b),
+  'EI': linear-gradient(135deg, #e74c3c, #c0392b),
+  'SD': linear-gradient(135deg, #d35400, #a04000),
+  'DEL': linear-gradient(135deg, #c0392b, #922b21)
+);
+
+$position-solid-colors: (
+  'POR': #f39c12,
+  'DEF': #3498db,
+  'LTD': #2980b9,
+  'LTI': #2980b9,
+  'MCD': #27ae60,
+  'MC': #2ecc71,
+  'MCO': #16a085,
+  'ED': #e74c3c,
+  'EI': #e74c3c,
+  'SD': #d35400,
+  'DEL': #c0392b
+);
+
+// Sección de cabecera del equipo
+.team-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 32px;
+  gap: 24px;
+  position: relative;
+  background: linear-gradient(135deg, #f8f9fa, #ffffff);
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  border: 1px solid rgba(0,0,0,0.03);
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.1), rgba(0,0,0,0));
+  }
+}
+
+.team-badge {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  color: white;
+  font-size: 36px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 20px rgba(63, 81, 181, 0.25);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50% 50% 0 0;
+  }
+  
+  &:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 25px rgba(63, 81, 181, 0.3);
+  }
+}
+
+.team-title {
+  display: flex;
+  flex-direction: column;
+  
+  h1 {
+    margin: 0 0 8px 0;
+    font-size: 32px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    letter-spacing: -0.5px;
+  }
+}
+
+.team-meta {
+  display: flex;
+  gap: 20px;
+  font-size: 15px;
+  color: #6c757d;
+  margin-top: 5px;
+  
+  span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    
+    i {
+      color: var(--primary-color);
+      font-size: 16px;
+    }
+  }
+}
+
+.action-buttons {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* NUEVO LAYOUT PRINCIPAL - Reorganizado */
+.team-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* Formulario horizontal en la parte superior */
+.player-form-card {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.3s ease;
+  margin-bottom: 20px;
+  
+  &:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+  }
+  
+  .card-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    color: white;
+    padding: 18px 24px;
+    
+    h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+    }
+  }
+  
+  .card-body {
+    padding: 24px;
+    background: #ffffff;
+  }
+}
+
+.player-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.form-row {
+  margin-bottom: 0;
+}
+
+.form-control {
+  flex-grow: 1;
+  min-width: 140px;
+  
+  &.half-width {
+    flex-basis: calc(50% - 8px);
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #495057;
+  }
+  
+  input, select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    font-size: 15px;
+    color: #212529;
+    transition: all 0.2s ease;
+    
+    &:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.15);
+    }
+  }
+  
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath fill='%23343a40' d='M0.707 0.293L4 3.586l3.293-3.293c0.391-0.391 1.024-0.391 1.414 0s0.391 1.024 0 1.414l-4 4c-0.391 0.391-1.024 0.391-1.414 0l-4-4c-0.391-0.391-0.391-1.024 0-1.414s1.024-0.391 1.414 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 10px;
+    padding-right: 40px;
+  }
+}
+
+.player-form .btn {
+  grid-column: -2 / -1;
+  justify-self: end;
+  align-self: end;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  color: white;
+  border: none;
+  box-shadow: 0 6px 15px rgba(63, 81, 181, 0.25);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(63, 81, 181, 0.3);
+  }
+  
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+  }
+  
+  i {
+    margin-right: 8px;
+  }
+}
+
+/* Contenido principal: roster y campo de fútbol */
+.team-content {
+  display: grid;
+  grid-template-columns: 65% 35%; /* Ajustado a 65/35 como pediste */
+  gap: 30px;
+  align-items: start;
+  
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Sección de plantilla */
+.roster-card {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+  }
+  
+  .card-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    color: white;
+    padding: 18px 24px;
+    
+    h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+    }
+  }
+  
+  .card-body {
+    background: #ffffff;
+  }
+}
+
+.loading {
+  padding: 40px;
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  
+  i {
+    font-size: 24px;
+    animation: spin 1.5s linear infinite;
+    color: var(--primary-color);
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6c757d;
+  
+  .empty-state-icon {
+    font-size: 48px;
+    color: #dee2e6;
+    margin-bottom: 20px;
+    animation: pulse 2s infinite;
+    
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.7; }
+      50% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); opacity: 0.7; }
+    }
+  }
+  
+  .empty-state-message {
+    font-size: 20px;
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 12px;
+  }
+  
+  p {
+    font-size: 16px;
+    max-width: 400px;
+    margin: 0 auto;
+    color: #6c757d;
+  }
+}
+
+/* Listados de jugadores por posición */
+.player-roster {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+}
+
+.position-group {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.position-header {
+  padding: 16px 24px;
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  
+  @each $position, $gradient in $position-colors {
+    &.position-#{$position} {
+      background: $gradient;
+    }
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 25%;
+    background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.1));
+  }
+  
+  i {
+    margin-right: 10px;
+    font-size: 18px;
+  }
+}
+
+/* Tarjetas de jugadores - Asegurando que sean completamente visibles */
+.player-card {
+  position: relative;
+  width: 200px;
+  background-color: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transform-origin: center bottom;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    
+    .player-photo img {
+      transform: scale(1.08);
+    }
+    
+    .player-number {
+      transform: scale(1.1);
+    }
+  }
+}
+
+.player-number {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 36px;
+  height: 36px;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  z-index: 2;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.player-position-tag {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  padding: 6px 10px;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  z-index: 2;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.player-photo {
+  background: linear-gradient(to bottom, #f1f3f5, #e9ecef);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+    z-index: 1;
+  }
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center; /* Asegura que vemos la cara de la persona */
+    transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+  
+  i {
+    font-size: 64px;
+    color: #ced4da;
+    opacity: 0.6;
+  }
+}
+
+.player-info {
+  padding: 15px;
+  border-top: 4px solid var(--primary-color);
+  position: relative;
+  background: white;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
+  }
+}
+
+.player-name {
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 6px;
+  color: #212529;
+  line-height: 1.3;
+}
+
+.player-details {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  color: #6c757d;
+  gap: 4px;
+  margin-bottom: 10px;
+  
+  .player-age {
+    display: flex;
+    align-items: center;
+    
+    &::before {
+      content: '\f1fd';
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 900;
+      margin-right: 8px;
+      font-size: 13px;
+      opacity: 0.8;
+      color: #6c757d;
+    }
+  }
+  
+  .player-nationality {
+    display: flex;
+    align-items: center;
+    
+    &::before {
+      content: '\f024';
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 900;
+      margin-right: 8px;
+      font-size: 13px;
+      opacity: 0.8;
+      color: #6c757d;
+    }
+  }
+}
+
+.delete-player {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  width: 32px;
+  height: 32px;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  border: none;
+  cursor: pointer;
+  color: #6c757d;
+  
+  i {
+    font-size: 14px;
+  }
+}
+
+.player-card:hover .delete-player {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.delete-player:hover {
+  background-color: var(--danger-color);
+  color: white;
+  box-shadow: 0 4px 10px rgba(244, 67, 54, 0.3);
+  transform: scale(1.1);
+}
+
+/* Contenedor de jugadores */
+.position-players {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  background-image: radial-gradient(#e9ecef 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* MEJORADO: Campo de fútbol con líneas visibles */
+.football-field-container {
+  height: 750px;
+  background-color: #38a838;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  position: relative;
+  border: 8px solid #2e8b2e;
+  position: sticky;
+  top: 24px; /* Para mantenerlo visible al hacer scroll */
+  
+  /* Fondo con textura de césped */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      repeating-linear-gradient(
+        90deg,
+        rgba(56, 168, 56, 0.97) 0px,
+        rgba(56, 168, 56, 0.97) 45px,
+        rgba(56, 168, 56, 0.99) 45px,
+        rgba(56, 168, 56, 0.99) 90px
+      );
+    z-index: 0;
+  }
+  
+  /* Líneas centrales del campo */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 1;
+  }
+}
+
+/* Marcas del campo de fútbol */
+.field-markings {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  
+  /* Círculo central */
+  .center-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px;
+      height: 8px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+    }
+  }
+  
+  /* Áreas de portería superior */
+  .penalty-area-top {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 20%;
+    border-bottom: 3px solid rgba(255, 255, 255, 0.8);
+    border-left: 3px solid rgba(255, 255, 255, 0.8);
+    border-right: 3px solid rgba(255, 255, 255, 0.8);
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+  
+  /* Áreas de portería inferior */
+  .penalty-area-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 20%;
+    border-top: 3px solid rgba(255, 255, 255, 0.8);
+    border-left: 3px solid rgba(255, 255, 255, 0.8);
+    border-right: 3px solid rgba(255, 255, 255, 0.8);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+  
+  /* Pequeñas áreas */
+  .goal-area-top {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30%;
+    height: 8%;
+    border-bottom: 3px solid rgba(255, 255, 255, 0.8);
+    border-left: 3px solid rgba(255, 255, 255, 0.8);
+    border-right: 3px solid rgba(255, 255, 255, 0.8);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+  
+  .goal-area-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30%;
+    height: 8%;
+    border-top: 3px solid rgba(255, 255, 255, 0.8);
+    border-left: 3px solid rgba(255, 255, 255, 0.8);
+    border-right: 3px solid rgba(255, 255, 255, 0.8);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  
+  /* Punto de penalti superior */
+  .penalty-spot-top {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+  
+  /* Punto de penalti inferior */
+  .penalty-spot-bottom {
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+  
+  /* Porterías */
+  .goal-top {
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20%;
+    height: 3px;
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .goal-bottom {
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20%;
+    height: 3px;
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+.football-field {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+  
+  .field-row {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    align-items: center;
+    width: 100%;
+    flex: 1;
+  }
+  
+  .field-position {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    
+    .position-label {
+      position: absolute;
+      top: -30px;
+      font-size: 12px;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 4px 12px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      opacity: 0.9;
+    }
+  }
+  
+  .player-dot {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    
+    // Asignar colores por posición
+    @each $position, $color in $position-solid-colors {
+      &.position-#{$position} {
+        background-color: $color;
+      }
+    }
+    
+    &:hover {
+      transform: scale(1.15);
+      border-color: white;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+      z-index: 10;
+    }
+    
+    .player-tooltip {
+      position: absolute;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: white;
+      color: #212529;
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      z-index: 100;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -8px;
+        border-width: 8px;
+        border-style: solid;
+        border-color: white transparent transparent transparent;
+      }
+    }
+    
+    &:hover .player-tooltip {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-5px);
+    }
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .team-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .player-form {
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  }
+  
+  .football-field-container {
+    height: 600px;
+  }
+}
+
+@media (max-width: 768px) {
+  .team-header {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .team-meta {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .action-buttons {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .player-form {
+    grid-template-columns: 1fr;
+  }
+  
+  .player-form .btn {
+    grid-column: auto;
+    width: 100%;
+  }
+  
+  .football-field-container {
+    height: 500px;
+  }
+}
